@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -80,5 +81,26 @@ public class PatientServiceTest {
         assertEquals("TestBorderline", result.get(1).getLastName());
 
         verify(patientRepository).findAll();
+    }
+
+    @Test
+    public void shouldGetPatientById() {
+
+        // Arrange
+        Patient patient = new Patient();
+        patient.setId(1);
+        patient.setFirstName("Test");
+        patient.setLastName("TestNone");
+
+        when(patientRepository.findById(1)).thenReturn(Optional.of(patient));
+
+        // Act
+        Patient result = patientService.getPatientById(1);
+
+        // Assert
+        assertEquals(1, result.getId());
+        assertEquals("TestNone", result.getLastName());
+
+        verify(patientRepository).findById(1);
     }
 }
