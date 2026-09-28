@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -50,5 +51,34 @@ public class PatientServiceTest {
         assertEquals("TestNone", result.getLastName());
 
         verify(patientRepository, times(1)).save(patient);
+    }
+
+    @Test
+    void shouldGetAllPatients() {
+
+        // Arrange
+        Patient patient1 = new Patient();
+        patient1.setId(1);
+        patient1.setFirstName("Test");
+        patient1.setLastName("TestNone");
+
+        Patient patient2 = new Patient();
+        patient2.setId(2);
+        patient2.setFirstName("Test");
+        patient2.setLastName("TestBorderline");
+
+        List<Patient> patients = List.of(patient1, patient2);
+
+        when(patientRepository.findAll()).thenReturn(patients);
+
+        // Act
+        List<Patient> result = patientService.getAllPatients();
+
+        // Assert
+        assertEquals(2, result.size());
+        assertEquals("TestNone", result.get(0).getLastName());
+        assertEquals("TestBorderline", result.get(1).getLastName());
+
+        verify(patientRepository).findAll();
     }
 }
