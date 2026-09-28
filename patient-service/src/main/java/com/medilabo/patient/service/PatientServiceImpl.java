@@ -1,5 +1,6 @@
 package com.medilabo.patient.service;
 
+import com.medilabo.patient.exception.PatientNotFoundException;
 import com.medilabo.patient.model.Patient;
 import com.medilabo.patient.repository.PatientRepository;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,6 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Patient getPatientById(Integer id) {
-        return patientRepository.findById(id).orElse(null);
+        return patientRepository.findById(id).orElseThrow(() -> new PatientNotFoundException(id));
     }
 }

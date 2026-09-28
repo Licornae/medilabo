@@ -1,6 +1,7 @@
 package com.medilabo.patient.service;
 
 
+import com.medilabo.patient.exception.PatientNotFoundException;
 import com.medilabo.patient.model.Patient;
 import com.medilabo.patient.repository.PatientRepository;
 import org.junit.jupiter.api.Test;
@@ -109,8 +110,7 @@ public class PatientServiceTest {
     public void shouldThrowExceptionWhenPatientNotFound() {
 
         // Arrange
-        when(patientRepository.findById(99))
-                .thenReturn(Optional.empty());
+        when(patientRepository.findById(99)).thenReturn(Optional.empty());
 
         // Act & Assert
         assertThrows(PatientNotFoundException.class, () -> patientService.getPatientById(99));
