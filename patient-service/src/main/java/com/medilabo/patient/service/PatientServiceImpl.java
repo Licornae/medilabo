@@ -4,6 +4,8 @@ import com.medilabo.patient.model.Patient;
 import com.medilabo.patient.repository.PatientRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PatientServiceImpl implements PatientService {
 
@@ -16,5 +18,10 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public Patient createPatient(Patient patient) {
         return patientRepository.save(patient);
+    }
+
+    @Override
+    public List<Patient> getAllPatients() {
+        return patientRepository.findAll();
     }
 }
