@@ -54,7 +54,7 @@ public class PatientServiceTest {
     }
 
     @Test
-    void shouldGetAllPatients() {
+    public void shouldGetAllPatients() {
 
         // Arrange
         Patient patient1 = new Patient();
