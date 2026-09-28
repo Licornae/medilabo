@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -102,5 +103,18 @@ public class PatientServiceTest {
         assertEquals("TestNone", result.getLastName());
 
         verify(patientRepository).findById(1);
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenPatientNotFound() {
+
+        // Arrange
+        when(patientRepository.findById(99))
+                .thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(PatientNotFoundException.class, () -> patientService.getPatientById(99));
+
+        verify(patientRepository).findById(99);
     }
 }
