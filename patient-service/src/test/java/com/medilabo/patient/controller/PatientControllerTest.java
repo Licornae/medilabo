@@ -163,5 +163,25 @@ public class PatientControllerTest {
         verify(patientService).updatePatient(eq(1), any(Patient.class));
     }
 
+    @Test
+    public void shouldReturnNotFoundWhenUpdatingUnknownPatient() throws Exception {
 
+        when(patientService.updatePatient(eq(99), any(Patient.class)))
+                .thenThrow(new PatientNotFoundException(99));
+
+        mockMvc.perform(put("/patients/99")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                              "firstName": "Updated",
+                              "lastName": "Patient",
+                              "birthDate": "1966-12-31",
+                              "gender": "F"
+                            }
+                            """))
+                .andExpect(status().isNotFound());
+
+        verify(patientService).updatePatient(eq(99), any(Patient.class));
+    }
 }
