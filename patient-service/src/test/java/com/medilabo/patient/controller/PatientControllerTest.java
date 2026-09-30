@@ -101,5 +101,24 @@ public class PatientControllerTest {
         verify(patientService).getAllPatients();
     }
 
+    @Test
+    public void shouldGetPatientById() throws Exception {
+
+        Patient patient = new Patient();
+        patient.setId(1);
+        patient.setFirstName("Test");
+        patient.setLastName("TestNone");
+
+        when(patientService.getPatientById(1)).thenReturn(patient);
+
+        mockMvc.perform(get("/patients/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.firstName").value("Test"))
+                .andExpect(jsonPath("$.lastName").value("TestNone"));
+
+        verify(patientService).getPatientById(1);
+    }
+
 
 }
