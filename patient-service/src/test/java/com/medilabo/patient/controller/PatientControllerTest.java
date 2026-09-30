@@ -1,5 +1,6 @@
 package com.medilabo.patient.controller;
 
+import com.medilabo.patient.exception.PatientNotFoundException;
 import com.medilabo.patient.model.Patient;
 import com.medilabo.patient.service.PatientService;
 import org.junit.jupiter.api.Test;
