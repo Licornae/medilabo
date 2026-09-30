@@ -145,4 +145,21 @@ public class PatientServiceTest {
         verify(patientRepository).findById(1);
         verify(patientRepository).save(existingPatient);
     }
+
+    @Test
+    public void shouldThrowExceptionWhenUpdatingUnknownPatient() {
+
+        // Arrange
+        Patient updatedData = new Patient();
+        updatedData.setFirstName("Updated");
+
+        when(patientRepository.findById(99)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(PatientNotFoundException.class,
+                () -> patientService.updatePatient(99, updatedData));
+
+        verify(patientRepository).findById(99);
+        verify(patientRepository, never()).save(any(Patient.class));
+    }
 }
