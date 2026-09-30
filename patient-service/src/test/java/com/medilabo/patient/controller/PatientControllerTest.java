@@ -11,14 +11,14 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @WithMockUser
 @WebMvcTest(PatientController.class)
@@ -129,6 +129,38 @@ public class PatientControllerTest {
         mockMvc.perform(get("/patients/99")).andExpect(status().isNotFound());
 
         verify(patientService).getPatientById(99);
+    }
+
+    @Test
+    public void shouldUpdatePatient() throws Exception {
+
+        Patient updatedPatient = new Patient();
+        updatedPatient.setId(1);
+        updatedPatient.setFirstName("Updated");
+        updatedPatient.setLastName("Patient");
+        updatedPatient.setBirthDate(LocalDate.of(1966, 12, 31));
+        updatedPatient.setGender("F");
+
+        when(patientService.updatePatient(eq(1), any(Patient.class)))
+                .thenReturn(updatedPatient);
+
+        mockMvc.perform(put("/patients/1")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                              "firstName": "Updated",
+                              "lastName": "Patient",
+                              "birthDate": "1966-12-31",
+                              "gender": "F"
+                            }
+                            """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.firstName").value("Updated"))
+                .andExpect(jsonPath("$.lastName").value("Patient"));
+
+        verify(patientService).updatePatient(eq(1), any(Patient.class));
     }
 
 
