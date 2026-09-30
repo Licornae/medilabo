@@ -117,4 +117,32 @@ public class PatientServiceTest {
 
         verify(patientRepository).findById(99);
     }
+
+    @Test
+    public void shouldUpdatePatient() {
+
+        // Arrange
+        Patient existingPatient = new Patient();
+        existingPatient.setId(1);
+        existingPatient.setFirstName("Test");
+        existingPatient.setLastName("TestNone");
+
+        Patient updatedData = new Patient();
+        updatedData.setFirstName("Updated");
+        updatedData.setLastName("Patient");
+
+        when(patientRepository.findById(1)).thenReturn(Optional.of(existingPatient));
+
+        when(patientRepository.save(existingPatient)).thenReturn(existingPatient);
+
+        // Act
+        Patient result = patientService.updatePatient(1, updatedData);
+
+        // Assert
+        assertEquals("Updated", result.getFirstName());
+        assertEquals("Patient", result.getLastName());
+
+        verify(patientRepository).findById(1);
+        verify(patientRepository).save(existingPatient);
+    }
 }
