@@ -120,5 +120,15 @@ public class PatientControllerTest {
         verify(patientService).getPatientById(1);
     }
 
+    @Test
+    public void shouldReturnNotFoundWhenPatientDoesNotExist() throws Exception {
+
+        when(patientService.getPatientById(99)).thenThrow(new PatientNotFoundException(99));
+
+        mockMvc.perform(get("/patients/99")).andExpect(status().isNotFound());
+
+        verify(patientService).getPatientById(99);
+    }
+
 
 }
