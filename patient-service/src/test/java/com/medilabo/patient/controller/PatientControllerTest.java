@@ -184,4 +184,25 @@ public class PatientControllerTest {
 
         verify(patientService).updatePatient(eq(99), any(Patient.class));
     }
+
+    @Test
+    public void shouldReturnBadRequestWhenUpdatingPatientWithMissingFirstName() throws Exception {
+
+        mockMvc.perform(put("/patients/1")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                              "lastName": "TestNone",
+                              "birthDate": "1966-12-31",
+                              "gender": "F"
+                            }
+                            """))
+                .andExpect(status().isBadRequest());
+
+        verify(patientService, never())
+                .updatePatient(eq(1), any(Patient.class));
+    }
+
+
 }
