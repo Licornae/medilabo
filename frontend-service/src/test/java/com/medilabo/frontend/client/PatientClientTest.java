@@ -92,4 +92,44 @@ public class PatientClientTest {
 
         server.verify();
     }
+
+    @Test
+    public void shouldUpdatePatient() {
+
+        Patient patientToUpdate = new Patient();
+        patientToUpdate.setId(1);
+        patientToUpdate.setFirstName("Updated");
+        patientToUpdate.setLastName("TestNone");
+        patientToUpdate.setBirthDate(java.time.LocalDate.of(1966, 12, 31));
+        patientToUpdate.setGender("F");
+        patientToUpdate.setAddress("New address");
+        patientToUpdate.setPhoneNumber("999-999-9999");
+
+        String json = """
+            {
+                "id": 1,
+                "firstName": "Updated",
+                "lastName": "TestNone",
+                "birthDate": "1966-12-31",
+                "gender": "F",
+                "address": "New address",
+                "phoneNumber": "999-999-9999"
+            }
+            """;
+
+        server.expect(requestTo("http://localhost:8081/patients/1"))
+                .andExpect(method(org.springframework.http.HttpMethod.PUT))
+                .andRespond(withSuccess(
+                        json,
+                        org.springframework.http.MediaType.APPLICATION_JSON
+                ));
+
+        Patient updatedPatient = patientClient.updatePatient(1, patientToUpdate);
+
+        assertThat(updatedPatient.getId()).isEqualTo(1);
+        assertThat(updatedPatient.getFirstName()).isEqualTo("Updated");
+        assertThat(updatedPatient.getAddress()).isEqualTo("New address");
+
+        server.verify();
+    }
 }
