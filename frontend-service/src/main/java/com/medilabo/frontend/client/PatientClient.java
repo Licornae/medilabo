@@ -49,4 +49,14 @@ public class PatientClient {
                 .retrieve()
                 .body(Patient.class);
     }
+
+    public Patient createPatient(Patient patient) {
+
+        return restClient
+                .post()
+                .uri("/patients")
+                .body(patient)
+                .retrieve()
+                .body(Patient.class);
+    }
 }
