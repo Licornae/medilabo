@@ -30,4 +30,25 @@ public class PatientServiceTest {
         assertThat(patients).hasSize(1);
         assertThat(patients.getFirst().getFirstName()).isEqualTo("Test");
     }
+
+    @Test
+    public void shouldGetPatientById() {
+
+        PatientClient patientClient = mock(PatientClient.class);
+        PatientService patientService = new PatientService(patientClient);
+
+        Patient patient = new Patient();
+        patient.setId(1);
+        patient.setFirstName("Test");
+        patient.setLastName("TestNone");
+
+        when(patientClient.getPatientById(1))
+                .thenReturn(patient);
+
+        Patient result = patientService.getPatientById(1);
+
+        assertThat(result.getId()).isEqualTo(1);
+        assertThat(result.getFirstName()).isEqualTo("Test");
+        assertThat(result.getLastName()).isEqualTo("TestNone");
+    }
 }
