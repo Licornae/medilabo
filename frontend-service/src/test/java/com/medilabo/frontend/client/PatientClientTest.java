@@ -21,7 +21,7 @@ public class PatientClientTest {
     private PatientClient patientClient;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         RestClient.Builder builder = RestClient.builder().baseUrl("http://localhost:8081");
 
         server = MockRestServiceServer.bindTo(builder).build();
@@ -30,7 +30,7 @@ public class PatientClientTest {
     }
 
     @Test
-    void shouldGetAllPatients() {
+    public void shouldGetAllPatients() {
 
         String json = """
                 [
@@ -58,6 +58,37 @@ public class PatientClientTest {
         assertThat(patients).hasSize(1);
         assertThat(patients.getFirst().getFirstName()).isEqualTo("Test");
         assertThat(patients.getFirst().getLastName()).isEqualTo("TestNone");
+
+        server.verify();
+    }
+
+    @Test
+    public void shouldGetPatientById() {
+
+        String json = """
+            {
+                "id": 1,
+                "firstName": "Test",
+                "lastName": "TestNone",
+                "birthDate": "1966-12-31",
+                "gender": "F",
+                "address": "1 Brookside St",
+                "phoneNumber": "100-222-3333"
+            }
+            """;
+
+        server.expect(requestTo("http://localhost:8081/patients/1"))
+                .andExpect(method(GET))
+                .andRespond(withSuccess(
+                        json,
+                        org.springframework.http.MediaType.APPLICATION_JSON
+                ));
+
+        Patient patient = patientClient.getPatientById(1);
+
+        assertThat(patient.getId()).isEqualTo(1);
+        assertThat(patient.getFirstName()).isEqualTo("Test");
+        assertThat(patient.getLastName()).isEqualTo("TestNone");
 
         server.verify();
     }
