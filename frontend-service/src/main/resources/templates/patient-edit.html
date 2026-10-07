@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier le patient</title>
+</head>
+<body>
+
+<h1>Modifier le patient</h1>
+
+<form th:action="@{/patients/{id}/edit(id=${patient.id})}"
+      th:object="${patient}"
+      method="post">
+
+    <div>
+        <label for="firstName">Prénom</label>
+        <input id="firstName"
+               type="text"
+               th:field="*{firstName}"
+               required>
+    </div>
+
+    <div>
+        <label for="lastName">Nom</label>
+        <input id="lastName"
+               type="text"
+               th:field="*{lastName}"
+               required>
+    </div>
+
+    <div>
+        <label for="birthDate">Date de naissance</label>
+        <input id="birthDate"
+               type="date"
+               th:field="*{birthDate}"
+               required>
+    </div>
+
+    <div>
+        <label for="gender">Genre</label>
+        <input id="gender"
+               type="text"
+               th:field="*{gender}"
+               required>
+    </div>
+
+    <div>
+        <label for="address">Adresse</label>
+        <input id="address"
+               type="text"
+               th:field="*{address}">
+    </div>
+
+    <div>
+        <label for="phoneNumber">Téléphone</label>
+        <input id="phoneNumber"
+               type="text"
+               th:field="*{phoneNumber}">
+    </div>
+
+    <button type="submit">Enregistrer</button>
+</form>
+
+<a th:href="@{/patients/{id}(id=${patient.id})}">
+    Annuler
+</a>
+
+</body>
+</html>

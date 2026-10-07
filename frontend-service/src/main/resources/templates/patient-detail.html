@@ -38,6 +38,10 @@
     <span th:text="${patient.phoneNumber}"></span>
 </p>
 
+<a th:href="@{/patients/{id}/edit(id=${patient.id})}">
+    Modifier
+</a>
+
 <a th:href="@{/patients}">Retour à la liste</a>
 
 </body>
