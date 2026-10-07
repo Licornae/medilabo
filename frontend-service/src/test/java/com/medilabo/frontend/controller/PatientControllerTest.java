@@ -59,4 +59,22 @@ public class PatientControllerTest {
                 .andExpect(view().name("patient-detail"))
                 .andExpect(model().attribute("patient", patient));
     }
+
+    @Test
+    @WithMockUser
+    public void shouldDisplayEditPatientForm() throws Exception {
+
+        Patient patient = new Patient();
+        patient.setId(1);
+        patient.setFirstName("Test");
+        patient.setLastName("TestNone");
+
+        when(patientService.getPatientById(1))
+                .thenReturn(patient);
+
+        mockMvc.perform(get("/patients/1/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("patient-edit"))
+                .andExpect(model().attribute("patient", patient));
+    }
 }
