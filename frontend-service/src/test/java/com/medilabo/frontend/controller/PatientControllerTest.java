@@ -5,6 +5,7 @@ import com.medilabo.frontend.service.PatientService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -15,6 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PatientController.class)
+@WithMockUser
 public class PatientControllerTest {
 
     @Autowired
@@ -24,7 +26,7 @@ public class PatientControllerTest {
     private PatientService patientService;
 
     @Test
-    void shouldDisplayPatientList() throws Exception {
+    public void shouldDisplayPatientList() throws Exception {
 
         Patient patient = new Patient();
         patient.setId(1);
