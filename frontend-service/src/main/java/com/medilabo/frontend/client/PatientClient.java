@@ -30,4 +30,13 @@ public class PatientClient {
 
         return Arrays.asList(patients);
     }
+
+    public Patient getPatientById(Integer id) {
+
+        return restClient
+                .get()
+                .uri("/patients/{id}", id)
+                .retrieve()
+                .body(Patient.class);
+    }
 }
