@@ -4,6 +4,7 @@ import com.medilabo.frontend.service.PatientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class PatientController {
@@ -20,5 +21,13 @@ public class PatientController {
         model.addAttribute("patients", patientService.getAllPatients());
 
         return "patients";
+    }
+
+    @GetMapping("/patients/{id}")
+    public String getPatientById(@PathVariable Integer id, Model model) {
+
+        model.addAttribute("patient", patientService.getPatientById(id));
+
+        return "patient-detail";
     }
 }
