@@ -39,4 +39,14 @@ public class PatientClient {
                 .retrieve()
                 .body(Patient.class);
     }
+
+    public Patient updatePatient(Integer id, Patient patient) {
+
+        return restClient
+                .put()
+                .uri("/patients/{id}", id)
+                .body(patient)
+                .retrieve()
+                .body(Patient.class);
+    }
 }
