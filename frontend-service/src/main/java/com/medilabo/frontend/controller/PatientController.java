@@ -53,4 +53,20 @@ public class PatientController {
 
         return "redirect:/patients/" + id;
     }
+
+    @GetMapping("/patients/new")
+    public String showCreateForm(Model model) {
+
+        model.addAttribute("patient", new Patient());
+
+        return "patient-create";
+    }
+
+    @PostMapping("/patients/new")
+    public String createPatient(@ModelAttribute Patient patient) {
+
+        Patient createdPatient = patientService.createPatient(patient);
+
+        return "redirect:/patients/" + createdPatient.getId();
+    }
 }
