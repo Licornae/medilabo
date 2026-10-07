@@ -2,9 +2,12 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Modifier le patient</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<main class="container">
 
 <h1>Modifier le patient</h1>
 
@@ -58,12 +61,16 @@
                th:field="*{phoneNumber}">
     </div>
 
-    <button type="submit">Enregistrer</button>
+    <div class="form-actions">
+        <button type="submit">Enregistrer</button>
+
+        <a class="button"
+           th:href="@{/patients/{id}(id=${patient.id})}">
+            Annuler
+        </a>
+    </div>
 </form>
 
-<a th:href="@{/patients/{id}(id=${patient.id})}">
-    Annuler
-</a>
-
+</main>
 </body>
 </html>

@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <title>Ajouter un patient</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-
+<main class="container">
 <h1>Ajouter un patient</h1>
 
 <form th:action="@{/patients/new}"
       th:object="${patient}"
       method="post">
 
+
     <div>
         <label for="firstName">Prénom</label>
-        <input id="firstName"
-               type="text"
-               th:field="*{firstName}"
-               required>
+        <input
+                id="firstName"
+                type="text"
+                th:field="*{firstName}"
+                required>
     </div>
 
     <div>
@@ -58,10 +62,15 @@
                th:field="*{phoneNumber}">
     </div>
 
-    <button type="submit">Ajouter</button>
+    <div class="form-actions">
+        <button type="submit">Ajouter</button>
+
+        <a class="button" th:href="@{/patients}">
+            Annuler
+        </a>
+    </div>
 </form>
 
-<a th:href="@{/patients}">Annuler</a>
-
+</main>
 </body>
 </html>

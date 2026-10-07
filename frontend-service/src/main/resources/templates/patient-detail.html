@@ -2,10 +2,12 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Détail patient</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-
+<main class="container">
 <h1>Détail du patient</h1>
 
 <p>
@@ -38,11 +40,11 @@
     <span th:text="${patient.phoneNumber}"></span>
 </p>
 
-<a th:href="@{/patients/{id}/edit(id=${patient.id})}">
+<a class="button" th:href="@{/patients/{id}/edit(id=${patient.id})}">
     Modifier
 </a>
 
-<a th:href="@{/patients}">Retour à la liste</a>
-
+<a class="button" th:href="@{/patients}">Retour à la liste</a>
+</main>
 </body>
 </html>
