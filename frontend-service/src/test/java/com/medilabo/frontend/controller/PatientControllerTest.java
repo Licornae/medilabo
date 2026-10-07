@@ -105,4 +105,38 @@ public class PatientControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/patients/1"));
     }
+
+    @Test
+    @WithMockUser
+    public void shouldDisplayCreatePatientForm() throws Exception {
+
+        mockMvc.perform(get("/patients/new"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("patient-create"))
+                .andExpect(model().attributeExists("patient"));
+    }
+
+    @Test
+    @WithMockUser
+    public void shouldCreatePatient() throws Exception {
+
+        Patient createdPatient = new Patient();
+        createdPatient.setId(5);
+        createdPatient.setFirstName("New");
+        createdPatient.setLastName("Patient");
+
+        when(patientService.createPatient(any(Patient.class)))
+                .thenReturn(createdPatient);
+
+        mockMvc.perform(post("/patients/new")
+                        .with(csrf())
+                        .param("firstName", "New")
+                        .param("lastName", "Patient")
+                        .param("birthDate", "1990-01-01")
+                        .param("gender", "M")
+                        .param("address", "")
+                        .param("phoneNumber", ""))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/patients/5"));
+    }
 }
