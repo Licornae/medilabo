@@ -22,4 +22,6 @@ public class PatientService {
     public Patient getPatientById(Integer id) {return patientClient.getPatientById(id);}
 
     public Patient updatePatient(Integer id, Patient patient) {return patientClient.updatePatient(id, patient);}
+
+    public Patient createPatient(Patient patient) {return patientClient.createPatient(patient);}
 }
