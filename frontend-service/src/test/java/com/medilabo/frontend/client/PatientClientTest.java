@@ -132,4 +132,41 @@ public class PatientClientTest {
 
         server.verify();
     }
+
+    @Test
+    public void shouldCreatePatient() {
+
+        Patient patientToCreate = new Patient();
+        patientToCreate.setFirstName("New");
+        patientToCreate.setLastName("Patient");
+        patientToCreate.setBirthDate(java.time.LocalDate.of(1990, 1, 1));
+        patientToCreate.setGender("M");
+
+        String json = """
+            {
+                "id": 5,
+                "firstName": "New",
+                "lastName": "Patient",
+                "birthDate": "1990-01-01",
+                "gender": "M",
+                "address": null,
+                "phoneNumber": null
+            }
+            """;
+
+        server.expect(requestTo("http://localhost:8081/patients"))
+                .andExpect(method(org.springframework.http.HttpMethod.POST))
+                .andRespond(withSuccess(
+                        json,
+                        org.springframework.http.MediaType.APPLICATION_JSON
+                ));
+
+        Patient createdPatient = patientClient.createPatient(patientToCreate);
+
+        assertThat(createdPatient.getId()).isEqualTo(5);
+        assertThat(createdPatient.getFirstName()).isEqualTo("New");
+        assertThat(createdPatient.getLastName()).isEqualTo("Patient");
+
+        server.verify();
+    }
 }
