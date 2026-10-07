@@ -1,0 +1,21 @@
+package com.medilabo.frontend.service;
+
+import com.medilabo.frontend.client.PatientClient;
+import com.medilabo.frontend.model.Patient;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class PatientService {
+
+    private final PatientClient patientClient;
+
+    public PatientService(PatientClient patientClient) {
+        this.patientClient = patientClient;
+    }
+
+    public List<Patient> getAllPatients() {
+        return patientClient.getAllPatients();
+    }
+}
