@@ -41,4 +41,22 @@ public class PatientControllerTest {
                 .andExpect(view().name("patients"))
                 .andExpect(model().attributeExists("patients"));
     }
+
+    @Test
+    @WithMockUser
+    public void shouldDisplayPatientDetails() throws Exception {
+
+        Patient patient = new Patient();
+        patient.setId(1);
+        patient.setFirstName("Test");
+        patient.setLastName("TestNone");
+
+        when(patientService.getPatientById(1))
+                .thenReturn(patient);
+
+        mockMvc.perform(get("/patients/1"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("patient-detail"))
+                .andExpect(model().attribute("patient", patient));
+    }
 }
