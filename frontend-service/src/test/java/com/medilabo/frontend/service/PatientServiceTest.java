@@ -73,4 +73,30 @@ public class PatientServiceTest {
 
         verify(patientClient).updatePatient(1, patient);
     }
+
+    @Test
+    public void shouldCreatePatient() {
+
+        PatientClient patientClient = mock(PatientClient.class);
+        PatientService patientService = new PatientService(patientClient);
+
+        Patient patient = new Patient();
+        patient.setFirstName("New");
+        patient.setLastName("Patient");
+
+        Patient createdPatient = new Patient();
+        createdPatient.setId(5);
+        createdPatient.setFirstName("New");
+        createdPatient.setLastName("Patient");
+
+        when(patientClient.createPatient(patient))
+                .thenReturn(createdPatient);
+
+        Patient result = patientService.createPatient(patient);
+
+        assertThat(result.getId()).isEqualTo(5);
+        assertThat(result.getFirstName()).isEqualTo("New");
+
+        verify(patientClient).createPatient(patient);
+    }
 }
