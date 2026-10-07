@@ -18,4 +18,6 @@ public class PatientService {
     public List<Patient> getAllPatients() {
         return patientClient.getAllPatients();
     }
+
+    public Patient getPatientById(Integer id) {return patientClient.getPatientById(id);}
 }
