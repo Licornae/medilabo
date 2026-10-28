@@ -6,5 +6,6 @@
 .vscode/
 .DS_Store
 Thumbs.db
+.run/
 
 application-local.properties
