@@ -1,6 +1,7 @@
 package com.medilabo.note.service;
 
 import com.medilabo.note.model.Note;
+import com.medilabo.note.repository.NoteRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class NoteServiceTest {
 
         when(noteRepository.findByPatientId(2)).thenReturn(List.of(note1, note2));
 
+        NoteService noteService = new NoteService(noteRepository);
         List<Note> result = noteService.getNotesByPatientId(2);
 
         assertThat(result).hasSize(2);
