@@ -13,6 +13,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 public class NoteControllerTest {
 
@@ -45,5 +46,36 @@ public class NoteControllerTest {
                 .andExpect(jsonPath("$[0].patient").value("TestBorderline"))
                 .andExpect(jsonPath("$[0].note").value("Le patient déclare ressentir beaucoup de stress au travail"));
 
+    }
+
+    @Test
+    public void shouldCreatNote() throws Exception {
+
+        Note noteToCreate = new Note();
+        noteToCreate.setPatientId(2);
+        noteToCreate.setPatient("TestBorderline");
+        noteToCreate.setNote("Le patient déclare ressentir beaucoup de stress au travail");
+
+        Note savedNote = new Note();
+        savedNote.setId("1");
+        savedNote.setPatientId(2);
+        savedNote.setPatient("TestBorderline");
+        savedNote.setNote("Le patient déclare ressentir beaucoup de stress au travail");
+
+        when(noteService.createNote(noteToCreate)).thenReturn(savedNote);
+
+        mockMvc.perform(post("/notes")
+                .contentType("application/json")
+                .content("""
+                            {
+                              "patientId": 2,
+                              "patient": "TestBorderline",
+                              "note": "Nouvelle note médicale"
+                            }
+                            """))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.patientId").value(2))
+                .andExpect(jsonPath("$.patient").value("TestBorderline"))
+                .andExpect(jsonPath("$.note").value("Le patient déclare ressentir beaucoup de stress au travail"));
     }
 }
