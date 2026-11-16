@@ -39,4 +39,34 @@ public class NoteServiceTest {
 
         verify(noteRepository).findByPatientId(2);
     }
+
+    @Test
+    public void shouldCreateNote() {
+
+        NoteRepository noteRepository = mock(NoteRepository.class);
+
+        Note note = new Note();
+        note.setPatientId(2);
+        note.setPatient("TestBorderline");
+        note.setNote("Le patient déclare ressentir beaucoup de stress au travail");
+
+        Note savedNote = new Note();
+        savedNote.setId("1");
+        savedNote.setPatientId(2);
+        savedNote.setPatient("TestBorderline");
+        savedNote.setNote("Le patient déclare ressentir beaucoup de stress au travail");
+
+        when(noteRepository.save(note)).thenReturn(savedNote);
+
+        NoteService noteService = new NoteService(noteRepository);
+
+        Note result = noteService.createNote(note);
+
+        assertThat(result.getId()).isEqualTo("1");
+        assertThat(result.getPatientId()).isEqualTo(2);
+        assertThat(result.getPatient()).isEqualTo("TestBorderline");
+        assertThat(result.getNote()).isEqualTo("Le patient déclare ressentir beaucoup de stress au travail");
+
+        verify(noteRepository).save(note);
+    }
 }
