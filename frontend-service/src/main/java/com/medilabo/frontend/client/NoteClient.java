@@ -30,4 +30,15 @@ public class NoteClient {
 
         return Arrays.asList(notes);
     }
+
+    public Note createNote(Note note) {
+
+        return restClient
+                .post()
+                .uri("/notes")
+                .body(note)
+                .retrieve()
+                .body(Note.class);
+    }
+
 }

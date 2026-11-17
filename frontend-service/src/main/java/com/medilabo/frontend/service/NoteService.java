@@ -18,4 +18,8 @@ public class NoteService {
     public List<Note> getNotesByPatientId(Integer patientId) {
         return noteClient.getNotesByPatientId(patientId);
     }
+
+    public Note createNote(Note note) {
+        return noteClient.createNote(note);
+    }
 }
