@@ -49,6 +49,25 @@
         <p th:text="${note.note}"></p>
     </div>
 </div>
+
+<h2>Ajouter une note</h2>
+<form th:action="@{/patients/{id}/notes(id=${patient.id})}"
+      method="post">
+    <input type="hidden"
+           name="patient"
+           th:value="${patient.lastName}">
+    <div>
+        <label for="note">Note médicale</label>
+        <textarea id="note"
+                  name="note"
+                  rows="5"
+                  required></textarea>
+    </div>
+    <div class="form-actions">
+        <button type="submit">Ajouter la note</button>
+    </div>
+</form>
+
 <a class="button" th:href="@{/patients/{id}/edit(id=${patient.id})}">
     Modifier
 </a>
