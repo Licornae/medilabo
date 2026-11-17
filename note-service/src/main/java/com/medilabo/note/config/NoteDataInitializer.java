@@ -2,6 +2,7 @@ package com.medilabo.note.config;
 
 import com.medilabo.note.model.Note;
 import com.medilabo.note.repository.NoteRepository;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 @Component
 @Profile("!test")
-public class NoteDataInitializer {
+public class NoteDataInitializer implements CommandLineRunner {
 
     private final NoteRepository noteRepository;
 
@@ -17,7 +18,8 @@ public class NoteDataInitializer {
         this.noteRepository = noteRepository;
     }
 
-    public void run() {
+    @Override
+    public void run(String... args) {
 
         saveIfMissing(
                 1,
