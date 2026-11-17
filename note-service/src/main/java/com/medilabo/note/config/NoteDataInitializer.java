@@ -2,9 +2,13 @@ package com.medilabo.note.config;
 
 import com.medilabo.note.model.Note;
 import com.medilabo.note.repository.NoteRepository;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
+@Profile("!test")
 public class NoteDataInitializer {
 
     private final NoteRepository noteRepository;
