@@ -33,4 +33,25 @@ class NoteServiceTest {
         assertThat(result.get(0).getPatient()).isEqualTo("TestBorderline");
         assertThat(result.get(0).getNote()).isEqualTo("Une note médicale");
     }
+
+    @Test
+    public void shouldCreateNote() {
+
+        NoteClient noteClient = mock(NoteClient.class);
+
+        Note note = new Note();
+        note.setPatientId(2);
+        note.setPatient("TestBorderline");
+        note.setNote("Nouvelle note médicale");
+
+        when(noteClient.createNote(note)).thenReturn(note);
+
+        NoteService noteService = new NoteService(noteClient);
+
+        Note result = noteService.createNote(note);
+
+        assertThat(result.getPatientId()).isEqualTo(2);
+        assertThat(result.getPatient()).isEqualTo("TestBorderline");
+        assertThat(result.getNote()).isEqualTo("Nouvelle note médicale");
+    }
 }
