@@ -1,5 +1,6 @@
 package com.medilabo.frontend.controller;
 
+import com.medilabo.frontend.model.Note;
 import com.medilabo.frontend.model.Patient;
 import com.medilabo.frontend.service.NoteService;
 import com.medilabo.frontend.service.PatientService;
@@ -72,5 +73,12 @@ public class PatientController {
         Patient createdPatient = patientService.createPatient(patient);
 
         return "redirect:/patients/" + createdPatient.getId();
+    }
+
+    @PostMapping("/patients/{id}/notes")
+    public String createNoteForPatient(@PathVariable Integer id, @ModelAttribute Note note) {
+        note.setPatientId(id);
+        noteService.createNote(note);
+        return "redirect:/patients/" + id;
     }
 }
