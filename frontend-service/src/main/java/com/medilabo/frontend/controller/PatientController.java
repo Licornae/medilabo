@@ -1,6 +1,7 @@
 package com.medilabo.frontend.controller;
 
 import com.medilabo.frontend.model.Patient;
+import com.medilabo.frontend.service.NoteService;
 import com.medilabo.frontend.service.PatientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class PatientController {
 
+    private final NoteService noteService;
     private final PatientService patientService;
 
-    public PatientController(PatientService patientService) {
+    public PatientController(NoteService noteService, PatientService patientService) {
+        this.noteService = noteService;
         this.patientService = patientService;
     }
 
@@ -30,6 +33,7 @@ public class PatientController {
     public String getPatientById(@PathVariable Integer id, Model model) {
 
         model.addAttribute("patient", patientService.getPatientById(id));
+        model.addAttribute("notes", noteService.getNotesByPatientId(id));
 
         return "patient-detail";
     }
