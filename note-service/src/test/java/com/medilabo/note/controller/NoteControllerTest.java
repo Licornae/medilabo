@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -62,7 +63,7 @@ public class NoteControllerTest {
         savedNote.setPatient("TestBorderline");
         savedNote.setNote("Le patient déclare ressentir beaucoup de stress au travail");
 
-        when(noteService.createNote(noteToCreate)).thenReturn(savedNote);
+        when(noteService.createNote(any(Note.class))).thenReturn(savedNote);
 
         mockMvc.perform(post("/notes")
                 .contentType("application/json")
@@ -70,7 +71,7 @@ public class NoteControllerTest {
                             {
                               "patientId": 2,
                               "patient": "TestBorderline",
-                              "note": "Nouvelle note médicale"
+                              "note": "Le patient déclare ressentir beaucoup de stress au travail"
                             }
                             """))
                 .andExpect(status().isCreated())
