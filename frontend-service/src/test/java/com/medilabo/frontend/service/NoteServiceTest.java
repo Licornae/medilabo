@@ -1,5 +1,6 @@
 package com.medilabo.frontend.service;
 
+import com.medilabo.frontend.client.NoteClient;
 import com.medilabo.frontend.model.Note;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,8 @@
 package com.medilabo.frontend.controller;
 
+import com.medilabo.frontend.model.Note;
 import com.medilabo.frontend.model.Patient;
+import com.medilabo.frontend.service.NoteService;
 import com.medilabo.frontend.service.PatientService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class PatientControllerTest {
     @MockitoBean
     private PatientService patientService;
 
+    @MockitoBean
+    private NoteService noteService;
+
     @Test
     public void shouldDisplayPatientList() throws Exception {
 
@@ -55,13 +60,22 @@ public class PatientControllerTest {
         patient.setFirstName("Test");
         patient.setLastName("TestNone");
 
+        Note note = new Note();
+        note.setPatientId(1);
+        note.setPatient("TestNone");
+        note.setNote("Une note médicale");
+
         when(patientService.getPatientById(1))
                 .thenReturn(patient);
+
+        when(noteService.getNotesByPatientId(1))
+                .thenReturn(List.of(note));
 
         mockMvc.perform(get("/patients/1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("patient-detail"))
-                .andExpect(model().attribute("patient", patient));
+                .andExpect(model().attribute("patient", patient))
+                .andExpect(model().attribute("notes", List.of(note)));
     }
 
     @Test
