@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -75,7 +76,9 @@ public class PatientControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("patient-detail"))
                 .andExpect(model().attribute("patient", patient))
-                .andExpect(model().attribute("notes", List.of(note)));
+                .andExpect(model().attribute("notes", List.of(note)))
+                .andExpect(content().string(containsString("Une note médicale"))
+                );
     }
 
     @Test
