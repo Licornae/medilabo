@@ -16,14 +16,12 @@ class NoteDataInitializerTest {
 
         NoteRepository noteRepository = mock(NoteRepository.class);
 
-        when(noteRepository.findByPatientId(anyInt()))
-                .thenReturn(List.of());
+        when(noteRepository.findByPatientId(anyInt())).thenReturn(List.of());
 
         NoteDataInitializer initializer = new NoteDataInitializer(noteRepository);
 
         initializer.run();
 
-        verify(noteRepository, times(9))
-                .save(any(Note.class));
+        verify(noteRepository, times(9)).save(any(Note.class));
     }
 }
