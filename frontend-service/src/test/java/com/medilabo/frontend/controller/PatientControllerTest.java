@@ -156,4 +156,24 @@ public class PatientControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/patients/5"));
     }
+
+    @Test
+    @WithMockUser
+    public void shouldCreateNoteForPatient() throws Exception {
+
+        Note createdNote = new Note();
+        createdNote.setPatientId(2);
+        createdNote.setPatient("TestBorderline");
+        createdNote.setNote("Nouvelle note médicale");
+
+        when(noteService.createNote(any(Note.class)))
+                .thenReturn(createdNote);
+
+        mockMvc.perform(post("/patients/2/notes")
+                        .with(csrf())
+                        .param("note", "Nouvelle note médicale")
+                        .param("patient", "TestBorderline"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/patients/2"));
+    }
 }
