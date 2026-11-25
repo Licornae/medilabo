@@ -14,8 +14,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -161,19 +161,23 @@ public class PatientControllerTest {
     @WithMockUser
     public void shouldCreateNoteForPatient() throws Exception {
 
-        Note createdNote = new Note();
-        createdNote.setPatientId(2);
-        createdNote.setPatient("TestBorderline");
-        createdNote.setNote("Nouvelle note médicale");
+        Patient patient = new Patient();
+        patient.setId(2);
+        patient.setLastName("TestBorderline");
 
-        when(noteService.createNote(any(Note.class)))
-                .thenReturn(createdNote);
+        when(patientService.getPatientById(2))
+                .thenReturn(patient);
 
         mockMvc.perform(post("/patients/2/notes")
                         .with(csrf())
                         .param("note", "Nouvelle note médicale")
-                        .param("patient", "TestBorderline"))
+                        .param("patient", "NomFalsifie"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/patients/2"));
+
+        verify(noteService).createNote(argThat(note -> note.getPatientId().equals(2)
+                        && note.getPatient().equals("TestBorderline")
+                        && note.getNote().equals("Nouvelle note médicale")
+        ));
     }
 }
